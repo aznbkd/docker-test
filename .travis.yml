@@ -1,5 +1,5 @@
 # Need a copy of Docker to run
-sudo: required
+# sudo: required Not needed any more
 services: 
   - docker
 
@@ -12,3 +12,24 @@ script:
   - docker run -e CI=true bderoest/docker-test npm run test
 
 # Deploy code to Elastic Beanstalk
+deploy: 
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "docker-test-bkd"
+  env: "Dockertestbkd-env"
+  # Code is placed into an S3 bucket where EC2 takes from
+  bucket_name: "elasticbeanstalk-us-east-1-458501501386"
+  # Bucket name will not change for EB for a region, but the bucket path per app does
+  bucket_path: "docker-test-bkd"
+  # Only deploy when the main branch gets code, not for any branch. Can do manual check for approval here as well for
+  # pull requests going to main from a branch or anywhere else
+  on:
+    branch: main
+
+  # Keys needed for Travis to access your AWS account through env secrets
+  # Have to create a user with EB access (could use AdminAccess, but that's not safe), can AssumeRole if you don't want
+  # permanence
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+
+
