@@ -16,7 +16,7 @@ deploy:
   provider: elasticbeanstalk
   region: "us-east-1"
   app: "docker-test-bkd"
-  env: "Dockertestbkd-env-1"
+  env: "Dockertestbkd-env"
   # Code is placed into an S3 bucket where EC2 takes from
   bucket_name: "elasticbeanstalk-us-east-1-458501501386"
   # Bucket name will not change for EB for a region, but the bucket path per app does
