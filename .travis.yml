@@ -1,0 +1,14 @@
+# Need a copy of Docker to run
+sudo: required
+services: 
+  - docker
+
+# Build Dockerfile.dev image for running test on
+before_install:
+  - docker build -t bderoest/docker-test -f Dockerfile.dev .
+
+# Run test suite, by default Jest doesn't exit, so Docker needs to know to exit Jest after test is ran by using CI=true
+script:
+  - docker run -e CI=true bderoest/docker-test npm run test
+
+# Deploy code to Elastic Beanstalk
